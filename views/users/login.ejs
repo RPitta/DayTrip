@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate')%>
+    <%- include('../partials/navbar') %>
+        <%- include('../partials/flash') %>
+            <script async
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0&libraries=places&callback=initAutocomplete">
+                </script>
+
+            <div class="bg-[#1f2937] h-screen">
+                <div class="container flex flex-wrap justify-center items-center mx-auto pt-32 mb-24">
+                    <form action="users/login" method="POST" class="text-white shadow-2xl p-16 rounded-lg ">
+                        <div class="text-3xl text-center mb-9 font-semibold">
+                            Log In
+                        </div>
+                        <div class="mb-6 w-72">
+                            <label for="username" class="block mb-2 text-sm font-medium dark:text-gray-300">Your
+                                username</label>
+                            <input type="text" id="username" name="username"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="username" required="true">
+                        </div>
+                        <div class="mb-6">
+                            <label for="password" class="block mb-2  text-sm font-medium dark:text-gray-300">Your
+                                password</label>
+                            <input type="password" id="password" name="password"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                required="true">
+                        </div>
+
+                        <div class="container flex flex-wrap justify-center items-center mx-auto">
+                            <button type="submit"
+                                class="transition ease-in-out text-white justify-between bg-red-800 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 object-bottom">Log
+                                In
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script src="javascripts/placeAutocomplete.js"></script>
+            <script src="javascripts/citySearch.js"></script>

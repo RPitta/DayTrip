@@ -1,0 +1,86 @@
+<% layout('layouts/boilerplate')%>
+    <%- include('../partials/navbar') %>
+        <%- include('../partials/flash') %>
+
+            <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+                integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+            <div class="bg-[#1f2937] h-screen">
+                <div class="container flex flex-wrap justify-center items-center mx-auto pt-32 mb-24">
+                    <form action="users/register" method="POST"
+                        class="text-white shadow-2xl p-16 rounded-lg validated-form" novalidate>
+                        <div class="text-3xl text-center mb-9 font-semibold">
+                            Register
+                        </div>
+                        <div class="mb-6 w-72">
+                            <label for="username" class="block mb-2 text-sm font-medium dark:text-gray-300">Your
+                                username</label>
+                            <input type="text" id="username" name="username"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="username" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="password" class="block mb-2  text-sm font-medium dark:text-gray-300">Your
+                                password</label>
+                            <input type="password" id="password" name="password"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                required>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="zip" class="block mb-2 text-sm font-medium dark:text-gray-300">ZIP Code</label>
+                            <input type="text" id="zip" name="zip"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="ZIP Code" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="city"
+                                class="hidden block mb-2 text-sm font-medium dark:text-gray-300">City</label>
+                            <div id="city-input-wrapper">
+                                <!-- wrap the city input so we can change to a dropdown if necessary -->
+                                <input type="text" id="city" name="city"
+                                    class="hidden shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="City" />
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <input type="text" id="state" name="state"
+                                class="hidden shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="State" />
+                        </div>
+
+                        <div class="container flex flex-wrap justify-center items-center mx-auto">
+                            <button type="submit"
+                                class="transition ease-in-out text-white justify-between bg-red-800 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 object-bottom">Register
+                                new account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script src="javascripts/placeAutocomplete.js"></script>
+            <script src="javascripts/citySearch.js"></script>
+            <script src="/javascripts/getGeoData.js"></script>
+            <script>
+                (function () {
+                    'use strict'
+
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.querySelectorAll('.validated-form')
+
+                    // Loop over them and prevent submission
+                    Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                            form.addEventListener('submit', function (event) {
+                                if (!form.checkValidity()) {
+                                    console.log("yoooooo")
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+
+                                form.classList.add('was-validated')
+                            }, false)
+                        })
+                })()
+            </script>

@@ -1,0 +1,195 @@
+<% layout('layouts/boilerplate')%>
+    <%- include('../partials/navbar') %>
+        <%- include('../partials/flash') %>
+            <div class="w-full p-8 mb-14 grid content-end h-60 bg-[#1F2937]">
+                <h1 class=" text-white text-5xl md:text-7xl">
+                    <%= city %>, <%= state %>
+                </h1>
+                <div class="mt-5">
+                    <form class="inline" action="/reviews/new/<%= city.name %>, <%= city.state %>" method="GET">
+                        <button type="submit" name="city" value="<%= city.name %>, <%= city.state %>" class=" focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500
+                        focus:ring-yellow-300 font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2
+                        dark:focus:ring-yellow-900">
+                            <svg class="text-xl inline" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
+                                <g fill="currentColor">
+                                    <path
+                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd"
+                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </g>
+                            </svg>
+                            <span class="ml-2">Write a review</span>
+                        </button>
+                    </form>
+                    <form class="inline" action="/users/save/<%= city.name %>, <%= city.state %>" method="POST">
+                        <button type="submit" name="city" value="<%= city.name %>, <%= city.state %>"
+                            class="focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4  font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
+                            <svg class="text-xl inline" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
+                                <path fill="currentColor"
+                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                            </svg>
+                            <span class="ml-2">Save</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TODO: Add sort by Date Visited. -->
+            <!-- TODO: Add "no reviews to show" if no reviews -->
+            <div id="reviews" class="flex flex-col justify-center items-center w-full h-full">
+                <div>
+
+                    <!-- <div class=" flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg" data-darkreader-inline-fill=""
+                            style="--darkreader-inline-fill:currentColor;">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Search icon</span>
+                    </div> -->
+                    <input type="text" id="search-navbar"
+                        class="search p-2 pl-10 mr-5 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search...">
+
+                    <button type="button" data-sort="date" data-order="desc"
+                        class="inline sort text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Date
+                        Reviewed</button>
+                    <button type="button" data-sort="useful" data-order="desc"
+                        class="inline sort text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Useful</button>
+                </div>
+
+                <div class="mt-5 max-w-[1000px] w-full list">
+                    <% if (!reviews.length) { %>
+                        <div class="w-full  text-gray-600 h-24 flex justify-center items-center">
+                            <p class="">
+                                No reviews to show...
+                            </p>
+                        </div>
+                        <% } %>
+                            <% for (let review of reviews) { %>
+                                <!-- Review -->
+                                <div class="mt-14 mb-14 mx-10">
+                                    <article class="w-full flex flex-col md:flex-row md:inline-flex">
+
+                                        <!-- User info -->
+                                        <div class="w-1/2">
+                                            <div class="flex items-center mb-6 space-x-4">
+                                                <img class="w-10 h-10 rounded-full"
+                                                    src="<%= review.author.avatar.url %>" alt="">
+                                                <div class="space-y-1 font-medium dark:text-white">
+                                                    <p class="hover:underline">
+                                                        <a href="users/<%= review.author._id %>">
+                                                            <%= review.author.username %>
+                                                        </a>
+
+                                                    </p>
+                                                    <div
+                                                        class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+
+                                                        <%= review.author.city %>, <%= review.author.state %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+
+                                                <li class="flex items-center"><svg aria-hidden="true"
+                                                        class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                            clip-rule="evenodd"></path>
+                                                        <!-- TODO: Add number of reviews for user in the controller -->
+                                                    </svg>23 Reviews</li>
+
+                                            </ul>
+                                        </div>
+                                        <!-- content -->
+                                        <div class="mt-6 md:mt-0  w-full  ">
+                                            <div class="flex items-start mb-5 w-full">
+                                                <div class="pr-4 w-full">
+                                                    <footer>
+                                                        <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                                            Reviewed:
+                                                            <time class="date">
+                                                                <%= review.time.toLocaleDateString('en-us',
+                                                                    {year:"numeric", month:"long", day:"numeric"}) %>
+                                                            </time>
+                                                        </p>
+                                                    </footer>
+
+                                                    <div class="mt-7 mb-4 flex w-full justify-evenly">
+                                                        <% for (let place of review.places) { %>
+                                                            <span
+                                                                class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                                <svg class="inline text-sm text-[#FBBF24] mr-1"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    style="vertical-align: -0.125em;" width="1em"
+                                                                    height="1em" preserveAspectRatio="xMidYMid meet"
+                                                                    viewBox="0 0 16 16">
+                                                                    <path fill="currentColor"
+                                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                                </svg>
+                                                                <a class="hover:underline" href="<%= place.url %> ">
+                                                                    <%= place.name %>
+                                                                </a>
+
+                                                            </span>
+                                                            <% } %>
+                                                                <!-- <span
+                                                    class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Green</span>
+                                                <span
+                                                    class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Green</span>
+                                                <span
+                                                    class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Green</span> -->
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <p class="mb-2 font-light text-gray-500 dark:text-gray-400 body">
+                                                <%= review.body %>
+                                            </p>
+
+                                            <p class="font-light text-gray-500"><span class="font-bold ">Date of Visit:
+                                                </span>
+                                                December 2020</p>
+                                            <!-- TODO: Add useful vote feature -->
+                                            <% if (review.useful) { %>
+
+                                                <div class="my-4 text-xs text-gray-500 useful">
+                                                    <%= review.useful %> helpful votes
+                                                </div>
+                                                <% } %>
+                                                    <form class="inline" target="_blank"
+                                                        action="/reviews/vote/<%= review._id %> " method="POST">
+                                                        <aside class="flex items-center mt-3 space-x-5">
+                                                            <button type="submit" name="vote" value=""
+                                                                class="vote inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                                                                <svg aria-hidden="true" class="w-4 h-4 mr-1.5"
+                                                                    fill="currentColor" viewBox="0 0 20 20"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z">
+                                                                    </path>
+                                                                </svg>
+                                                                Helpful
+                                                            </button>
+
+                                                        </aside>
+                                                    </form>
+
+                                        </div>
+                                    </article>
+
+                                </div>
+                                <% } %>
+                </div>
+            </div>
+            <script src="javascripts/placeAutocomplete.js"></script>
+            <script src="javascripts/citySearch.js"></script>
+            <script src="javascripts/vote.js"></script>
+            <script src="javascripts/sortFilterReviews.js"></script>
