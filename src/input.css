@@ -5,21 +5,26 @@
 @tailwind utilities;
 
 @layer base {
-    .was-validated input:invalid {
+
+    .was-validated input:invalid,
+    .was-validated textarea:invalid {
         background-color: rgb(254 242 242);
         border-color: rgb(239 68 68);
 
     }
 
-    .was-validated input:invalid:focus {
+    .was-validated input:invalid:focus,
+    .was-validated textarea:invalid:focus {
         --tw-ring-color: rgb(239 68 68);
     }
 
-    .was-validated input:valid {
+    .was-validated input:valid,
+    .was-validated textarea:valid {
         background-color: rgb(240 253 244);
         border-color: rgb(34 197 94);
     }
 
+    .was-validated input:valid:focus,
     .was-validated input:valid:focus {
         --tw-ring-color: rgb(34 197 94);
     }
