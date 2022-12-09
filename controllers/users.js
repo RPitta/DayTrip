@@ -59,6 +59,7 @@ module.exports.renderProfile = async (req, res) => {
 }
 
 module.exports.saveCity = async (req, res) => {
+    // TODO: Do not save city if city is already saved
     const id = req.user._id;
     const location = req.params.city;
     const state = location.split(',')[1].trim();

@@ -9,9 +9,10 @@ const catchAsync = require('../utils/catchAsync');
 router.route('/:city').get(catchAsync(reviews.index));
 router.route('/new/:city').get(isLoggedIn, catchAsync(reviews.renderReview));
 
-router.route('/:city').post(catchAsync(reviews.createReview));
+router.route('/:city')
+    .post(catchAsync(reviews.createReview))
+    .delete(isLoggedIn, catchAsync(reviews.deleteReview));
+
 router.route('/vote/:id').post(catchAsync(reviews.vote));
-
-
 
 module.exports = router;

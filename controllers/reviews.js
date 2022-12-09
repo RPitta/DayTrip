@@ -87,14 +87,10 @@ module.exports.createReview = async (req, res) => {
         }
     }
 
-
     await review.save();
 
-
-
-    res.send(req.body);
-    // res.send("hey");
-
+    req.flash('success', 'Created new review!');
+    res.redirect(`/reviews/${location}`);
 }
 
 module.exports.vote = async (req, res) => {
@@ -112,8 +108,12 @@ module.exports.vote = async (req, res) => {
 }
 
 // TODO: Delete review route
+// Also decrement number of recommendations if recommendations > 1
+// else remove the entire Place
 module.exports.deleteReview = async (req, res) => {
-
+    const { reviewId } = req.body;
+    await Review.findByIdAndDelete(reviewId);
+    res.send(reviewId);
 }
 
 

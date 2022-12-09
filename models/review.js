@@ -23,4 +23,48 @@ const ReviewSchema = new Schema({
     ]
 })
 
+// TODO: Review body cannot be empty
+ReviewSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+
+        // await Place.deleteMany({
+        //     $and: [
+        //         {
+        //             _id: {
+        //                 $in: doc.places
+        //             }
+        //         }
+        //         ,
+        //         {
+        //             recommendations: {
+        //                 $eq: 1
+        //             }
+        //         }
+        //     ]
+
+        // })
+
+        await Place.updateMany(
+
+            {
+                _id: {
+                    $in: doc.places
+                }
+            }
+
+            ,
+            {
+
+                $inc: {
+                    recommendations: -1
+                }
+
+            }
+
+
+        )
+
+    }
+})
+
 module.exports = mongoose.model("Review", ReviewSchema);
