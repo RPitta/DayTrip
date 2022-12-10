@@ -7,9 +7,9 @@
         <div class="container max-w-4xl mx-auto pt-32 mb-24">
             <form action="/reviews/<%= city %>" method="POST"
                 class="grid grid-cols-3 text-white shadow-2xl p-16 rounded-lg validated-form" novalidate>
-                <div class="col-span-3 text-3xl text-center mb-16 font-semibold">
+                <h1 class="col-span-3 text-3xl text-center mb-16 font-semibold">
                     Write a Review for <%= city %>
-                </div>
+                </h1>
                 <div class="flex justify-between col-span-3">
                     <div class="mb-12 w-44">
                         <label for="recommendation"
@@ -32,6 +32,7 @@
                             class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                             placeholder="recommendation">
                     </div>
+
                 </div>
 
                 <div class="hidden mb-12 w-44">
@@ -39,6 +40,14 @@
                     <input type="text" id="city" name="city" value="<%= city %>"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         placeholder="city">
+                </div>
+
+                <div class="mb-12 w-44">
+                    <label for="dateVisited" class="block mb-2 text-sm font-medium dark:text-gray-300">Month
+                        Visited</label>
+                    <input type="month" id="dateVisited" name="dateVisited"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        placeholder="dateVisited" required>
                 </div>
 
                 <div class="mb-12 col-span-2">
@@ -51,6 +60,7 @@
                         is useful to confirm your are logged into your account</div> -->
 
                 </div>
+
                 <div class="mb-12 col-span-3">
 
                     <label for="reviewBody" class="block mb-2 text-sm font-medium dark:text-gray-300">Your
@@ -69,4 +79,25 @@
     </div>
 
     <script src="javascripts/yelpAutocomplete.js" city="<%= city %>"></script>
-    <script src="javascripts/validation.js"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.validated-form')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            console.log("yoooooo")
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
