@@ -1,0 +1,126 @@
+<% layout('layouts/boilerplate')%>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0&libraries=places&callback=initAutocomplete">
+        </script>
+    <div class="bg-[#1f2937] h-screen">
+        <!-- TODO: Post for edit review -->
+        <div class="container max-w-4xl mx-auto pt-32 mb-24">
+            <form action="/reviews/edit/<%= city %>/<%= review._id %>?_method=PUT" method="POST"
+                class="grid grid-cols-3 text-white shadow-2xl p-16 rounded-lg validated-form" novalidate>
+                <h1 class="col-span-3 text-3xl text-center mb-16 font-semibold">
+                    Edit Review for <%= city %>
+                </h1>
+                <div class="flex justify-between col-span-3">
+                    <% review.places.forEach((place, idx)=> { %>
+                        <div class="mb-12 w-44">
+                            <label for="recommendation"
+                                class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
+                            <input type="text" id="autocomplete-<%= idx + 1 %>" name="recommendation"
+                                value="<%= place.name %>"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="recommendation">
+                        </div>
+                        <% }) %>
+
+
+                            <!-- <div class="mb-12 w-44">
+                                <label for="recommendation"
+                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
+                                <input type="text" id="autocomplete-1" name="recommendation"
+                                    value=""
+                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="recommendation">
+                            </div>
+                            <div class="mb-12 w-44">
+                                <label for="recommendation"
+                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
+                                <input type="text" id="autocomplete-2" name="recommendation"
+                                    value=""
+                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="recommendation">
+                            </div>
+                            <div class="mb-12 w-44">
+                                <label for="recommendation"
+                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
+                                <input type="text" id="autocomplete-3" name="recommendation"
+                                    value=""
+                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                    placeholder="recommendation">
+                            </div> -->
+
+                </div>
+
+                <div class="hidden mb-12 w-44">
+                    <label for="city" class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
+                    <input type="text" id="city" name="city" value="<%= city %>"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        placeholder="city">
+                </div>
+
+                <!-- Need this to reformat month. getUTCMonth() returns zero-based months so we add one to to the month -->
+                <% const yearMonth=new Date(review.dateVisited.getFullYear(), review.dateVisited.getUTCMonth() + 1, 1)
+                    %>
+                    <div class="mb-12 w-44">
+                        <label for="dateVisited" class="block mb-2 text-sm font-medium dark:text-gray-300">Month
+                            Visited</label>
+                        <input type="month" id="dateVisited" name="dateVisited"
+                            value="<%= review.dateVisited.getFullYear() %>-<%=yearMonth.getUTCMonth().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false, timeZone: 'UTC'})  %>"
+                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                    dark:shadow-sm-light" placeholder="dateVisited" required>
+                    </div>
+
+                    <div class="mb-12 col-span-2">
+                        <label class="block mb-2 text-sm font-medium dark:text-gray-300" for="user_avatar">Upload
+                            file</label>
+                        <input
+                            class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="user_avatar_help" id="user_avatar" type="file">
+                        <!-- <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture
+                        is useful to confirm your are logged into your account</div> -->
+
+                    </div>
+
+                    <div class="mb-12 col-span-3">
+
+                        <label for="reviewBody" class="block mb-2 text-sm font-medium dark:text-gray-300">Your
+                            review</label>
+                        <textarea id="reviewBody" rows="5" name="reviewBody"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Leave a review..." minlength="10" maxlength="40"
+                            required><%= review.body %></textarea>
+
+                    </div>
+                    <div class="container col-span-3 flex flex-wrap justify-center items-center mx-auto">
+                        <button type="submit"
+                            class="transition ease-in-out text-white justify-between bg-red-800 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 object-bottom">Submit</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="javascripts/yelpAutocomplete.js" city="<%= city %>"></script>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.validated-form')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            console.log("yoooooo")
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>

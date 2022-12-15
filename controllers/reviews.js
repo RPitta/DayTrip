@@ -34,8 +34,6 @@ module.exports.index = async (req, res) => {
 module.exports.renderReview = (req, res) => {
     const userId = req.user._id;
     const { city } = req.params;
-    // const {city, state} =  req.body;
-    // res.render('reviews/new', { userId, city, state });
     res.render('reviews/new', { userId, city });
 }
 
@@ -54,6 +52,7 @@ module.exports.createReview = async (req, res) => {
     const review = new Review({
         body: req.body.reviewBody,
         city: city,
+        dateVisited: req.body.dateVisited,
         state: state,
         author: userId,
         authorId: userId
@@ -107,13 +106,73 @@ module.exports.vote = async (req, res) => {
     await review.save();
 }
 
-// TODO: Delete review route
-// Also decrement number of recommendations if recommendations > 1
-// else remove the entire Place
 module.exports.deleteReview = async (req, res) => {
+    // TODO: Flash success for delete review and redirect to review page
     const { reviewId } = req.body;
     await Review.findByIdAndDelete(reviewId);
     res.send(reviewId);
+}
+
+module.exports.renderEditReview = async (req, res) => {
+    const { reviewId, city } = req.params;
+    const userId = req.user._id;
+
+    const review = await Review.findById(reviewId).populate('places');
+    res.render('reviews/edit', { userId, city, review });
+}
+
+module.exports.editReview = async (req, res) => {
+    const { reviewId } = req.params;
+    const { city } = req.params;
+
+    const review = await Review.findOneAndUpdate(
+        { _id: reviewId },
+        {
+            body: req.body.reviewBody,
+            dateVisited: req.body.dateVisited
+        },
+        { returnOriginal: false }
+    ).populate('places');
+
+    const oldReviewPlaces = review.places.map(a => a.name);
+
+    for (r of req.body.recommendation) {
+        if (r.length !== 0) {
+            r = r.split(',')[0];
+            if (oldReviewPlaces.includes(r)) {
+                continue;
+            }
+
+            const business = await getPlace(city, r); // getPlace() might return an empty array
+
+            let place = await Place.findOneAndUpdate(
+                { yelpId: business.id },
+                { $inc: { recommendations: 1 } },
+                { returnOriginal: false }
+            );
+
+            if (!place) {
+                place = new Place({
+                    name: r,
+                    address: business.location.address1,
+                    city: city,
+                    state: state,
+                    yelpId: business.id,
+                    url: business.url,
+                });
+
+                await place.save();
+            }
+
+            review.places.push(place);
+
+        }
+    }
+
+    await review.save();
+
+    req.flash('success', 'Review edited successfully!');
+    res.redirect(`/reviews/${city}`);
 }
 
 
