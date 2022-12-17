@@ -109,8 +109,10 @@ module.exports.vote = async (req, res) => {
 module.exports.deleteReview = async (req, res) => {
     // TODO: Flash success for delete review and redirect to review page
     const { reviewId } = req.body;
+    const { city, state } = req.params;
     await Review.findByIdAndDelete(reviewId);
-    res.send(reviewId);
+    req.flash('success', 'Review deleted successfully!');
+    res.redirect(`/reviews/${city}, ${state}`);
 }
 
 module.exports.renderEditReview = async (req, res) => {
