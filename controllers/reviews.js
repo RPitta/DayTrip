@@ -107,7 +107,6 @@ module.exports.vote = async (req, res) => {
 }
 
 module.exports.deleteReview = async (req, res) => {
-    // TODO: Flash success for delete review and redirect to review page
     const { reviewId } = req.body;
     const { city, state } = req.params;
     await Review.findByIdAndDelete(reviewId);
@@ -123,9 +122,12 @@ module.exports.renderEditReview = async (req, res) => {
     res.render('reviews/edit', { userId, city, review });
 }
 
+//TODO: 
 module.exports.editReview = async (req, res) => {
     const { reviewId } = req.params;
-    const { city } = req.params;
+    const location = req.params.city;
+    const state = location.split(',')[1].trim();
+    const city = location.split(',')[0];
 
     const review = await Review.findOneAndUpdate(
         { _id: reviewId },
@@ -137,14 +139,13 @@ module.exports.editReview = async (req, res) => {
     ).populate('places');
 
     const oldReviewPlaces = review.places.map(a => a.name);
+    console.log(oldReviewPlaces)
 
+    const newPlaces = [];
     for (r of req.body.recommendation) {
+        console.log(r);
         if (r.length !== 0) {
             r = r.split(',')[0];
-            if (oldReviewPlaces.includes(r)) {
-                continue;
-            }
-
             const business = await getPlace(city, r); // getPlace() might return an empty array
 
             let place = await Place.findOneAndUpdate(
@@ -163,18 +164,20 @@ module.exports.editReview = async (req, res) => {
                     url: business.url,
                 });
 
+                console.log("checking")
                 await place.save();
             }
 
-            review.places.push(place);
+            newPlaces.push(place);
 
         }
     }
 
+    review.places = newPlaces;
     await review.save();
 
     req.flash('success', 'Review edited successfully!');
-    res.redirect(`/reviews/${city}`);
+    res.redirect(`/reviews/${location}`);
 }
 
 
