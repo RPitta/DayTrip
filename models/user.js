@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
-// TODO: Add picture field for user
-// TODO: Add images for reviews
 const UserSchema = new Schema({
     city: String,
     zip: String,

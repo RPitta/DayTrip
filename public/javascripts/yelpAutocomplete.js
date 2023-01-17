@@ -1,9 +1,3 @@
-// 'use strict';
-
-// const { default: axios } = require("axios");
-
-// Maybe get yelpid in controller 
-
 let autocomplete1, autocomplete2, autocomplete3;
 function initAutocomplete() {
     autocomplete1 = new google.maps.places.Autocomplete(
@@ -31,6 +25,7 @@ function initAutocomplete() {
 function yelpAuto() {
     // let input = document.getElementById("recommendation");
     // const axios = require('axios').default
+    console.log("in yelpAuto()");
     var api_key = 'AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0';
 
     var scripts = document.getElementsByTagName('script');
@@ -38,7 +33,6 @@ function yelpAuto() {
     var scriptName = lastScript;
 
     const city = scriptName.getAttribute('city');
-    // console.log(scriptName.getAttribute('city'));
 
     // Get lat and long for yelp business autocomplete
     axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
@@ -63,20 +57,4 @@ function yelpAuto() {
         .catch(function (error) {
             console.log(error);
         });
-
-
-    // input.addEventListener("keyup", (e) => {
-
-    // })
-
 }
-
-
-// Call this in input loop for search?
-// client.autocomplete({
-//     text: 'pizza'
-// }).then(response => {
-//     console.log(response.jsonBody.terms[0].text);
-// }).catch(e => {
-//     console.log(e);
-// });

@@ -1,5 +1,3 @@
-console.log("hello")
-
 document.querySelectorAll('.my-slider').forEach(slider => {
     tns({
         container: slider,

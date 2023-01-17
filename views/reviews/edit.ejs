@@ -4,7 +4,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0&libraries=places&callback=initAutocomplete">
         </script>
     <div class="bg-[#1f2937] h-screen">
-        <!-- TODO: Post for edit review -->
         <div class="container max-w-4xl mx-auto pt-32 mb-24">
             <form action="/reviews/edit/<%= city %>/<%= review._id %>?_method=PUT" method="POST"
                 class="grid grid-cols-3 text-white shadow-2xl p-16 rounded-lg validated-form" novalidate>
@@ -12,43 +11,16 @@
                     Edit Review for <%= city %>
                 </h1>
                 <div class="flex justify-between col-span-3">
-                    <% review.places.forEach((place, idx)=> { %>
+                    <% for (let i=0; i < 3; i++) { %>
                         <div class="mb-12 w-44">
                             <label for="recommendation"
                                 class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
-                            <input type="text" id="autocomplete-<%= idx + 1 %>" name="recommendation"
-                                value="<%= place.name %>"
+                            <input type="text" id="autocomplete-<%= i + 1 %>" name="recommendation"
+                                value="<%= review.places[i] ? review.places[i].name : "" %>"
                                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                                 placeholder="recommendation">
                         </div>
-                        <% }) %>
-
-
-                            <!-- <div class="mb-12 w-44">
-                                <label for="recommendation"
-                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
-                                <input type="text" id="autocomplete-1" name="recommendation"
-                                    value=""
-                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                    placeholder="recommendation">
-                            </div>
-                            <div class="mb-12 w-44">
-                                <label for="recommendation"
-                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
-                                <input type="text" id="autocomplete-2" name="recommendation"
-                                    value=""
-                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                    placeholder="recommendation">
-                            </div>
-                            <div class="mb-12 w-44">
-                                <label for="recommendation"
-                                    class="block mb-2 text-sm font-medium dark:text-gray-300">Recommendation</label>
-                                <input type="text" id="autocomplete-3" name="recommendation"
-                                    value=""
-                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                    placeholder="recommendation">
-                            </div> -->
-
+                        <% } %>
                 </div>
 
                 <div class="hidden mb-12 w-44">

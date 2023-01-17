@@ -74,7 +74,6 @@
                         .forEach(function (form) {
                             form.addEventListener('submit', function (event) {
                                 if (!form.checkValidity()) {
-                                    console.log("yoooooo")
                                     event.preventDefault()
                                     event.stopPropagation()
                                 }

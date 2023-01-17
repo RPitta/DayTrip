@@ -95,11 +95,3 @@ function geocodeResponseToCityState(geocodeJSON) { //will return and array of ma
 
     return parsedLocalities;
 }
-// axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${apikey}`)
-//     .then(function (res) {
-//         console.log(res);
-//     })
-//     .catch(function (error) {
-//         console.log(error)
-//     })
-

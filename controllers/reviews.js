@@ -122,7 +122,6 @@ module.exports.renderEditReview = async (req, res) => {
     res.render('reviews/edit', { userId, city, review });
 }
 
-//TODO: 
 module.exports.editReview = async (req, res) => {
     const { reviewId } = req.params;
     const location = req.params.city;
