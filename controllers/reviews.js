@@ -75,6 +75,9 @@ module.exports.createReview = async (req, res) => {
                     address: business.location.address1,
                     city: city,
                     state: state,
+                    image_url: business.image_url,
+                    rating: business.rating,
+                    title: business.categories[0].title,
                     yelpId: business.id,
                     url: business.url,
                 });

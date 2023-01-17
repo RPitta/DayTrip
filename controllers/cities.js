@@ -1,5 +1,8 @@
 const axios = require('axios');
 const yelp = require('yelp-fusion');
+const city = require('../models/city');
+const Place = require('../models/place');
+const user = require('../models/user');
 const apiKey = 'lWGEnmQU2dyRKRVAJ-r9GjpWCGoubYXcoV9ynkdVn4Mai7MTTacgk9vVVJ5Cj9zAxDdzLQkxrl_7JzZqR-fV7882sJxWNOC0edpGtU239kk5HdGkaJFj_byZvPpOY3Yx';
 const api_key = 'AIzaSyCykUarIq_FigSPJZTDQ_HHWfzXdlhjsw0';
 
@@ -33,15 +36,24 @@ async function getAllBusinesses(name) {
 module.exports.showCity = async (req, res) => {
     let { name } = req.params;
     name = name.replace(/\s/g, "");
+    arr = name.split(',');
+    let city = { name: arr[0], state: arr[1], country: arr[2] };
+
+    // TODO: Get user favorites
+    let userFavs = await Place.find({
+        $and: [
+            { city: { $eq: city.name } },
+            { state: { $eq: city.state } },
+            { recommendations: { $gte: 1 } }
+        ]
+    }).sort({ 'recommendations': -1 }).limit(10);
 
     getAllBusinesses(name)
         .then(businesses => {
-            arr = name.split(',');
-            city = { name: arr[0], state: arr[1], country: arr[2] };
             if (!businesses.restaurants) {
                 return res.render('cities/error', { name });
             } else {
-                return res.render('cities/show', { city, businesses });
+                return res.render('cities/show', { city, businesses, userFavs });
             }
         }).catch(e => {
             return res.redirect("/")

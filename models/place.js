@@ -8,6 +8,9 @@ const PlaceSchema = new Schema({
     state: String,
     yelpId: String,
     url: String,
+    image_url: String,
+    rating: Number,
+    title: String,
     country: String,
     recommendations: { type: Number, default: 1 },
 })
