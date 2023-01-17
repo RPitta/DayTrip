@@ -1,16 +1,27 @@
 <% layout('layouts/boilerplate')%>
     <%- include('../partials/navbar') %>
         <%- include('../partials/flash') %>
+            <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+                integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
             <!-- header -->
             <div class="w-full p-8 mb-14 grid content-end h-60 bg-[#1F2937]">
-
-
             </div>
 
-            <div class="w-full  text-gray-600 h-24 flex justify-center items-center">
-                <p class="text-2xl">
-                    Sorry, unable to find "<%= name %>"
-                </p>
+            <div class="w-full  text-gray-600 h-24 flex flex-col justify-center items-center">
+                <% if (!addr) {%>
+                    <p class="text-2xl">
+                        Sorry, unable to find "<%= name %>"
+                    </p>
+                    <% } else { %>
+                        <p class="text-2xl mb-4">
+                            Top result for "<%= name %> ":
+                        </p>
+                        <p class="text-xl">
+                            <a class="hover:underline" href="cities/<%= addr %>">
+                                <%= addr %>
+                            </a>
+                        </p>
+                        <% } %>
             </div>
 
             <script src="javascripts/placeAutocomplete.js"></script>

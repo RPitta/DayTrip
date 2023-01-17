@@ -1,6 +1,7 @@
 const axios = require('axios');
 const yelp = require('yelp-fusion');
 const apiKey = 'lWGEnmQU2dyRKRVAJ-r9GjpWCGoubYXcoV9ynkdVn4Mai7MTTacgk9vVVJ5Cj9zAxDdzLQkxrl_7JzZqR-fV7882sJxWNOC0edpGtU239kk5HdGkaJFj_byZvPpOY3Yx';
+const api_key = 'AIzaSyCykUarIq_FigSPJZTDQ_HHWfzXdlhjsw0';
 
 function getBusinesses(location, term, limit = 10) {
     // Get top 10 best matched business results for specified term
@@ -30,8 +31,6 @@ async function getAllBusinesses(name) {
 }
 
 module.exports.showCity = async (req, res) => {
-    // TODO Add view for invalid city name "We couldn't find anything for <name>"
-    // Or just display all reviews with that city name
     let { name } = req.params;
     name = name.replace(/\s/g, "");
 
@@ -39,15 +38,42 @@ module.exports.showCity = async (req, res) => {
         .then(businesses => {
             arr = name.split(',');
             city = { name: arr[0], state: arr[1], country: arr[2] };
-            // let userId = 'null'
-            // if (req.user) userId = req.user._id;
             if (!businesses.restaurants) {
                 return res.render('cities/error', { name });
             } else {
                 return res.render('cities/show', { city, businesses });
             }
         }).catch(e => {
-            // console.log(e);
             return res.redirect("/")
+        });
+}
+
+module.exports.showCityError = async (req, res) => {
+    let name = req.params.searchTerm;
+
+    axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
+        params: {
+            address: name,
+            key: api_key
+        }
+    })
+        .then(function (response) {
+            let addr = response.data.results[0].formatted_address;
+            let addrArr = addr.split(",")
+
+            // if address is has more than 3 parts, only keep the
+            // last three e.g. "Bloomfield, Pittsburgh, PA, USA" -> "Pittsburgh, PA, USA"
+            // in order to satisfy city validation in citySearch.js
+            if (addrArr.length > 3) {
+                addr = addrArr.slice(addrArr.length - 3).join(",").trim();
+            }
+
+            return res.render("cities/error", { name, addr });
+
+        })
+        .catch(function (error) {
+            let addr = null;
+            return res.render("cities/error", { name, addr });
+
         });
 }

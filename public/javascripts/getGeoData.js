@@ -2,9 +2,9 @@ $('#zip').blur(function () {
     var zip = $(this).val();
     var api_key = 'AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0';
     if (zip.length) {
-        //make a request to the google geocode api with the zipcode as the address parameter and your api key
+        // Make a request to the google geocode api with the zipcode as the address parameter and your api key
         $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&key=' + api_key).then(function (response) {
-            //parse the response for a list of matching city/state
+            // Parse the response for a list of matching city/state
             console.log(response)
             var possibleLocalities = geocodeResponseToCityState(response);
             fillCityAndStateFields(possibleLocalities);
