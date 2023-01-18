@@ -18,5 +18,4 @@ router.route('/:city')
     .delete(isLoggedIn, catchAsync(reviews.deleteReview));
 
 router.route('/vote/:id').post(catchAsync(reviews.vote));
-// TODO: Add edit for reviews
 module.exports = router;

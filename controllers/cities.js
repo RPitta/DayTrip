@@ -21,7 +21,7 @@ function getBusinesses(location, term, limit = 10) {
         const res = response.jsonBody.businesses;
         return res;
     }).catch(e => {
-        // console.log(e);
+        console.log(e);
     });
 }
 
@@ -39,7 +39,6 @@ module.exports.showCity = async (req, res) => {
     arr = name.split(',');
     let city = { name: arr[0], state: arr[1], country: arr[2] };
 
-    // TODO: Get user favorites
     let userFavs = await Place.find({
         $and: [
             { city: { $eq: city.name } },

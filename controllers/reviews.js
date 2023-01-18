@@ -28,7 +28,14 @@ module.exports.index = async (req, res) => {
     const state = req.params.city.split(',')[1].trim();
     const city = req.params.city.split(',')[0];
     const reviews = await Review.find({ city: city, state: state }).populate("places").populate("author");
-    res.render('reviews/index', { reviews, city, state });
+    const numReviews = {};
+    // Use authorid instead of populating author
+    for (let review of reviews) {
+        const user = review.author.username;
+        const reviewsForUser = await Review.find({ authorId: review.authorId });
+        numReviews[user] = reviewsForUser.length;
+    }
+    res.render('reviews/index', { reviews, city, state, numReviews });
 }
 
 module.exports.renderReview = (req, res) => {
