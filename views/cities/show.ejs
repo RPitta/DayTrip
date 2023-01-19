@@ -89,7 +89,9 @@
                                                     <%= restaurant.name %>
                                                 </h3>
                                                 <p class="text-gray-700">
-                                                    <%= restaurant.categories[0].title %>
+                                                    <% if (restaurant.categories.length) { %>
+                                                        <%= restaurant.categories[0].title %>
+                                                            <% } %>
                                                 </p>
                                                 <!-- Full stars -->
                                                 <p class="text-[#FBBF24]">
@@ -248,7 +250,9 @@
                                                     <%= hotel.name %>
                                                 </h3>
                                                 <p class="text-gray-700">
-                                                    <%= hotel.categories[0].title %>
+                                                    <% if (hotel.categories.length) { %>
+                                                        <%= hotel.categories[0].title %>
+                                                            <% } %>
                                                 </p>
                                                 <!-- Full stars -->
                                                 <p class="text-[#FBBF24]">
@@ -355,7 +359,9 @@
                                                     <%= poi.name %>
                                                 </h3>
                                                 <p class="text-gray-700">
-                                                    <%= poi.categories[0].title %>
+                                                    <% if (poi.categories.length) { %>
+                                                        <%= poi.categories[0].title %>
+                                                            <% } %>
                                                 </p>
                                                 <!-- Full stars -->
                                                 <p class="text-[#FBBF24]">
