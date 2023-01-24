@@ -2,9 +2,10 @@ const axios = require('axios');
 const yelp = require('yelp-fusion');
 const city = require('../models/city');
 const Place = require('../models/place');
+const Review = require('../models/review');
 const user = require('../models/user');
 const apiKey = 'lWGEnmQU2dyRKRVAJ-r9GjpWCGoubYXcoV9ynkdVn4Mai7MTTacgk9vVVJ5Cj9zAxDdzLQkxrl_7JzZqR-fV7882sJxWNOC0edpGtU239kk5HdGkaJFj_byZvPpOY3Yx';
-const api_key = 'AIzaSyCykUarIq_FigSPJZTDQ_HHWfzXdlhjsw0';
+const api_key = 'AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0';
 
 function getBusinesses(location, term, limit = 10) {
     // Get top 10 best matched business results for specified term
@@ -38,6 +39,21 @@ module.exports.showCity = async (req, res) => {
     name = name.replace(/\s/g, "");
     arr = name.split(',');
     let city = { name: arr[0], state: arr[1], country: arr[2] };
+    const userId = req.user ? req.user._id : "";
+    let isReviewed = false;
+    let rev = null;
+
+    // if user is logged in get  reviews for that user to see if they've written
+    // a review for that city and pass
+    if (userId) {
+        const reviews = await Review.find({ authorId: userId });
+        for (let review of reviews) {
+            if (review.city === city.name && review.state === city.state) {
+                rev = review;
+                break;
+            }
+        }
+    }
 
     let userFavs = await Place.find({
         $and: [
@@ -52,7 +68,8 @@ module.exports.showCity = async (req, res) => {
             if (!businesses.restaurants) {
                 return res.render('cities/error', { name });
             } else {
-                return res.render('cities/show', { city, businesses, userFavs });
+
+                return res.render('cities/show', { city, businesses, userFavs, rev });
             }
         }).catch(e => {
             return res.redirect("/")
@@ -65,7 +82,7 @@ module.exports.showCityError = async (req, res) => {
     axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
         params: {
             address: name,
-            key: api_key
+            key: process.env.GEOCODE_APIKEY
         }
     })
         .then(function (response) {

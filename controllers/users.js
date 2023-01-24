@@ -19,7 +19,7 @@ module.exports.register = async (req, res) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            req.flash("success", "Welcome to Day Trip!");
+            req.flash("success", "Welcome to DayTrip!");
             res.redirect('/');
         });
     } catch (e) {
@@ -58,17 +58,34 @@ module.exports.renderProfile = async (req, res) => {
     res.render('users/overview', { reviews, user });
 }
 
+module.exports.renderBookmarks = async (req, res) => {
+    const { id } = req.params;
+    const user = req.user;
+
+    res.render('users/bookmarks', { user });
+}
+
 module.exports.saveCity = async (req, res) => {
-    // TODO: Do not save city if city is already saved
     const id = req.user._id;
     const location = req.params.city;
-    const state = location.split(',')[1].trim();
-    const city = location.split(',')[0];
 
     const user = await User.findById(id);
-    user.bookmarks.push({ city: city, state: state });
+    user.bookmarks.push(location);
     user.save();
     req.flash('success', 'City saved!');
+    res.redirect(`/cities/${location}`);
+}
+
+module.exports.unsaveCity = async (req, res) => {
+    const id = req.user._id;
+    const location = req.params.city;
+
+    const user = await User.findById(id);
+    const idx = user.bookmarks.indexOf(location);
+    user.bookmarks.splice(idx);
+
+    user.save();
+    req.flash('success', 'Removed city from bookmarks');
     res.redirect(`/cities/${location}`);
 }
 
