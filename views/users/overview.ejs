@@ -4,17 +4,22 @@
             <!-- Header -->
             <div class="bg-[#6366F1] flex flex-col justify-center items-center h-72 w-full">
                 <div>
-                    <img class="bg-white bg-center bg-cover rounded-full h-32 w-32" src="<%= user.avatar.url %>" alt="">
+                    <a href="/users/photo">
+                        <img class="bg-white bg-center bg-cover rounded-full h-32 w-32" src="<%= user.avatar.url %>"
+                            alt="Not Found"
+                            onerror="this.src='https://res.cloudinary.com/dx5j0c332/image/upload/v1674607736/DayTrip/360_F_109006426_388PagqielgjFTAMgW59jRaDmPJvSBUL_w3idqh.jpg';">
+                    </a>
+
                 </div>
                 <p class="text-sm my-4 text-white text-center">
                     From Kearny, NJ
                 </p>
-                <div class="flex gap-x-4">
+                <!-- <div class="flex gap-x-4">
                     <button type="button"
                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Yellow</button>
                     <button type="button"
                         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Yellow</button>
-                </div>
+                </div> -->
 
             </div>
 
@@ -70,7 +75,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="users/bookmarks/<%= user._id %>"
                                     class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <svg aria-hidden="true"
                                         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"

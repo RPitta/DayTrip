@@ -95,8 +95,6 @@ module.exports.renderPhoto = (req, res) => {
 
 module.exports.uploadPhoto = async (req, res) => {
     const id = req.user._id;
-    console.log(req.body);
-    console.log(req.file);
     const user = await User.findById(id);
     user.avatar = { url: req.file.path, filename: req.file.filename };
     await user.save();
