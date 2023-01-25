@@ -4,7 +4,6 @@ const Review = require('../models/review');
 const cities = require('./cities.js')
 const yelp = require('yelp-fusion');
 const review = require('../models/review');
-const apiKey = 'lWGEnmQU2dyRKRVAJ-r9GjpWCGoubYXcoV9ynkdVn4Mai7MTTacgk9vVVJ5Cj9zAxDdzLQkxrl_7JzZqR-fV7882sJxWNOC0edpGtU239kk5HdGkaJFj_byZvPpOY3Yx';
 
 // Does a yelp business search for a recommendation
 function getPlace(location, term, limit = 1) {
@@ -14,7 +13,7 @@ function getPlace(location, term, limit = 1) {
         limit: limit
     };
 
-    const client = yelp.client(apiKey);
+    const client = yelp.client(process.env.YELP_APIKEY);
 
     return client.search(searchRequest).then(response => {
         const res = response.jsonBody.businesses[0];
@@ -29,7 +28,7 @@ module.exports.index = async (req, res) => {
     const city = req.params.city.split(',')[0];
     const reviews = await Review.find({ city: city, state: state }).populate("places").populate("author");
     const numReviews = {};
-    // Use authorid instead of populating author
+
     for (let review of reviews) {
         const user = review.author.username;
         const reviewsForUser = await Review.find({ authorId: review.authorId });
@@ -148,11 +147,9 @@ module.exports.editReview = async (req, res) => {
     ).populate('places');
 
     const oldReviewPlaces = review.places.map(a => a.name);
-    console.log(oldReviewPlaces)
 
     const newPlaces = [];
     for (r of req.body.recommendation) {
-        console.log(r);
         if (r.length !== 0) {
             r = r.split(',')[0];
             const business = await getPlace(city, r); // getPlace() might return an empty array

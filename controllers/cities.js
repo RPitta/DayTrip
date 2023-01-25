@@ -4,8 +4,6 @@ const city = require('../models/city');
 const Place = require('../models/place');
 const Review = require('../models/review');
 const user = require('../models/user');
-const apiKey = 'lWGEnmQU2dyRKRVAJ-r9GjpWCGoubYXcoV9ynkdVn4Mai7MTTacgk9vVVJ5Cj9zAxDdzLQkxrl_7JzZqR-fV7882sJxWNOC0edpGtU239kk5HdGkaJFj_byZvPpOY3Yx';
-const api_key = 'AIzaSyCvJIT4lKt9wTsoTzQd-Ow8XEdDj1sZwo0';
 
 function getBusinesses(location, term, limit = 10) {
     // Get top 10 best matched business results for specified term
@@ -16,7 +14,7 @@ function getBusinesses(location, term, limit = 10) {
         limit: limit
     };
 
-    const client = yelp.client(apiKey);
+    const client = yelp.client(process.env.YELP_APIKEY);
 
     return client.search(searchRequest).then(response => {
         const res = response.jsonBody.businesses;
