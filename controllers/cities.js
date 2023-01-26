@@ -38,7 +38,6 @@ module.exports.showCity = async (req, res) => {
     arr = name.split(',');
     let city = { name: arr[0], state: arr[1], country: arr[2] };
     const userId = req.user ? req.user._id : "";
-    let isReviewed = false;
     let rev = null;
 
     // if user is logged in get  reviews for that user to see if they've written

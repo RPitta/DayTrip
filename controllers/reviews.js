@@ -24,17 +24,31 @@ function getPlace(location, term, limit = 1) {
 }
 
 module.exports.index = async (req, res) => {
+    const userId = req.user ? req.user._id : "";
     const state = req.params.city.split(',')[1].trim();
     const city = req.params.city.split(',')[0];
     const reviews = await Review.find({ city: city, state: state }).populate("places").populate("author");
     const numReviews = {};
+    let rev = null;
+
+    // if user is logged in get  reviews for that user to see if they've written
+    // a review for that city and pass
+    if (userId) {
+        const reviews = await Review.find({ authorId: userId });
+        for (let review of reviews) {
+            if (review.city === city && review.state === state) {
+                rev = review;
+                break;
+            }
+        }
+    }
 
     for (let review of reviews) {
         const user = review.author.username;
         const reviewsForUser = await Review.find({ authorId: review.authorId });
         numReviews[user] = reviewsForUser.length;
     }
-    res.render('reviews/index', { reviews, city, state, numReviews });
+    res.render('reviews/index', { reviews, city, state, numReviews, rev });
 }
 
 module.exports.renderReview = (req, res) => {
