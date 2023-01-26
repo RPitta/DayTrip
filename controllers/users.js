@@ -58,6 +58,14 @@ module.exports.renderProfile = async (req, res) => {
     res.render('users/overview', { reviews, user });
 }
 
+module.exports.renderUserReviews = async (req, res) => {
+    const { id } = req.params;
+    const user = req.user;
+    const reviews = await Review.find({ authorId: id }).populate('places');
+
+    res.render('users/reviews', { reviews, user });
+}
+
 module.exports.renderBookmarks = async (req, res) => {
     const { id } = req.params;
     const user = req.user;

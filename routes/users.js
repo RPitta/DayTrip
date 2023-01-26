@@ -31,6 +31,9 @@ router.get('/:id', users.renderProfile);
 
 router.get('/bookmarks/:id', users.renderBookmarks);
 
+router.get('/reviews/:id', users.renderUserReviews);
+
+
 
 
 module.exports = router;
