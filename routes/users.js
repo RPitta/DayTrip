@@ -25,7 +25,11 @@ router.get('/logout', users.logout)
 
 router.post('/save/:city', isLoggedIn, users.saveCity);
 
+router.post('/unsave/:city', isLoggedIn, users.unsaveCity)
+
 router.get('/:id', users.renderProfile);
+
+router.get('/bookmarks/:id', users.renderBookmarks);
 
 
 

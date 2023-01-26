@@ -1,7 +1,6 @@
 document.querySelectorAll('.my-slider').forEach(slider => {
     tns({
         container: slider,
-        // "items": 3,
         "gutter": 10,
         controlsText: ['<span class="fas fa-chevron-circle-left"></span>', '<span class="fas fa-chevron-circle-right"></span>'],
         "swipeAngle": false,

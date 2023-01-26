@@ -7,12 +7,7 @@ const UserSchema = new Schema({
     zip: String,
     state: String,
     avatar: { url: String, filename: String },
-    bookmarks: [
-        {
-            city: String,
-            state: String
-        }
-    ],
+    bookmarks: [String],
     isLocalGuide: { type: Boolean, default: false }
 });
 

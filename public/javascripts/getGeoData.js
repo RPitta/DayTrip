@@ -5,7 +5,6 @@ $('#zip').blur(function () {
         // Make a request to the google geocode api with the zipcode as the address parameter and your api key
         $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&key=' + api_key).then(function (response) {
             // Parse the response for a list of matching city/state
-            console.log(response)
             var possibleLocalities = geocodeResponseToCityState(response);
             fillCityAndStateFields(possibleLocalities);
         });
@@ -13,14 +12,14 @@ $('#zip').blur(function () {
 });
 
 function fillCityAndStateFields(localities) {
-    var locality = localities[0]; //use the first city/state object
+    var locality = localities[0]; // Use the first city/state object
 
     $('#city').val(locality.city);
     $('#state').val(locality.state);
 
     var $input;
 
-    if (localities.length > 1) { //possibly create a dropdown if we have multiple cities in the result.
+    if (localities.length > 1) { // Possibly create a dropdown if we have multiple cities in the result.
         var $select = $(document.createElement('select'));
         for (var i = 0; i < localities.length; i++) {
             var city = localities[i].city;
@@ -55,7 +54,7 @@ function fillCityAndStateFields(localities) {
 
 }
 
-function geocodeResponseToCityState(geocodeJSON) { //will return and array of matching {city,state} objects
+function geocodeResponseToCityState(geocodeJSON) { // Will return and array of matching {city,state} objects
     var parsedLocalities = [];
     if (geocodeJSON.results.length) {
         for (var i = 0; i < geocodeJSON.results.length; i++) {
