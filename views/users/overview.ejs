@@ -139,7 +139,12 @@
                                             <p class="font-light text-sm text-gray-500"><span class="font-bold ">Date of
                                                     Visit:
                                                 </span>
-                                                December 2020</p>
+                                                <time class="date">
+                                                    <%= review.dateVisited.toLocaleDateString('en-us', {year:"numeric",
+                                                        month:"long", timeZone: 'UTC' }) %>
+                                                </time>
+                                            </p>
+
                                             <!-- TODO: Add useful vote feature -->
                                             <% if (review.useful) { %>
                                                 <div class="my-4 text-xs text-gray-500 useful">
