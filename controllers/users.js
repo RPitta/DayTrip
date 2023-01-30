@@ -34,11 +34,6 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = async (req, res) => {
     req.flash('success', 'Welcome back!');
-    /*
-    Get username from req.body and get user obj 
-    from the db to display username and pfp
-    */
-
 
     const redirectUrl = res.locals.returnTo || "/";
     delete res.locals.returnTo;

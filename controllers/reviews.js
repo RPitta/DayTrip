@@ -166,7 +166,7 @@ module.exports.editReview = async (req, res) => {
     for (r of req.body.recommendation) {
         if (r.length !== 0) {
             r = r.split(',')[0];
-            const business = await getPlace(city, r); // getPlace() might return an empty array
+            const business = await getPlace(city, r);
 
             let place = await Place.findOneAndUpdate(
                 { yelpId: business.id },

@@ -40,8 +40,6 @@ module.exports.showCity = async (req, res) => {
     const userId = req.user ? req.user._id : "";
     let rev = null;
 
-    // if user is logged in get  reviews for that user to see if they've written
-    // a review for that city and pass
     if (userId) {
         const reviews = await Review.find({ authorId: userId });
         for (let review of reviews) {
