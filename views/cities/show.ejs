@@ -81,22 +81,23 @@
                                                             </button>
                                                         </form>
                                                         <% } %>
+                                                            <a href="/reviews/<%= city.name %>, <%= city.state %>">
+                                                                <button type="button"
+                                                                    class="inline focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5  mb-2 dark:focus:ring-yellow-900">
+                                                                    <svg class="text-xl inline"
+                                                                        xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                        height="1em" preserveAspectRatio="xMidYMid meet"
+                                                                        viewBox="0 0 32 32">
+                                                                        <path fill="currentColor"
+                                                                            d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z" />
+                                                                        <path fill="currentColor"
+                                                                            d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3l-7.451-1.083z" />
+                                                                    </svg>
+                                                                    <span class="ml-2 hidden sm:inline-block">All
+                                                                        reviews</span>
+                                                                </button>
+                                                            </a>
 
-                                                            <button type="button"
-                                                                class="inline focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5  mb-2 dark:focus:ring-yellow-900">
-                                                                <svg class="text-xl inline"
-                                                                    xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                                    height="1em" preserveAspectRatio="xMidYMid meet"
-                                                                    viewBox="0 0 32 32">
-                                                                    <path fill="currentColor"
-                                                                        d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z" />
-                                                                    <path fill="currentColor"
-                                                                        d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3l-7.451-1.083z" />
-                                                                </svg>
-                                                                <a class="ml-2 hidden sm:inline-block"
-                                                                    href="/reviews/<%= city.name %>, <%= city.state %>">All
-                                                                    reviews</a>
-                                                            </button>
                 </div>
             </div>
 
