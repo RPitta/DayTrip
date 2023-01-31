@@ -2,8 +2,10 @@
     <%- include('../partials/navbar') %>
         <%- include('../partials/flash') %>
             <div class="w-full p-8 mb-14 grid content-end h-60 bg-[#1F2937]">
-                <h1 class=" text-white text-4xl">
-                    <%= city %>, <%= state %>
+                <h1>
+                    <a class="text-white text-4xl" href="cities/<%= city %>, <%= state %>">
+                        <%= city %>, <%= state %>
+                    </a>
                 </h1>
                 <div class="mt-5 flex justify-center sm:justify-self-start">
                     <% if (rev) { %>
