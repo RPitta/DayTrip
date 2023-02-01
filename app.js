@@ -20,7 +20,7 @@ const cityRoutes = require('./routes/cities');
 const userRoutes = require('./routes/users');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/daytrip');
+mongoose.connect('mongodb://mongo:27017/daytrip');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
