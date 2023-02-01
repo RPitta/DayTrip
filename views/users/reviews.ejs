@@ -1,115 +1,103 @@
 <% layout('layouts/boilerplate')%>
     <%- include('../partials/navbar') %>
         <%- include('../partials/flash') %>
-            <!-- Header -->
-            <div class="bg-[#6366F1] flex flex-col justify-center items-center h-72 w-full">
-                <div>
-                    <a href="/users/photo">
-                        <img class="bg-white bg-center bg-cover rounded-full h-32 w-32" src="<%= user.avatar.url %>"
-                            alt="Not Found"
-                            onerror="this.src='https://res.cloudinary.com/dx5j0c332/image/upload/v1674607736/DayTrip/360_F_109006426_388PagqielgjFTAMgW59jRaDmPJvSBUL_w3idqh.jpg';">
-                    </a>
+            <%- include('../partials/userProfileHeader') %>
+                <!-- Content -->
+                <div class=" h-screen flex justify-center">
 
-                </div>
-                <p class="text-sm my-4 text-white text-center">
-                    From <%= user.city %>, <%= user.state %>
-                </p>
+                    <!-- Sidebar -->
+                    <%- include('../partials/sidebar') %>
 
-            </div>
+                        <!-- Reviews -->
+                        <div class="h-auto w-1/2 border-2">
+                            <% if (reviews.length===0) { %>
+                                <div class="w-full  text-gray-600 h-24 flex justify-center items-center">
+                                    <p class="">
+                                        No reviews to show...
+                                    </p>
+                                </div>
 
-            <!-- Content -->
-            <div class=" h-screen flex justify-center">
+                                <% } %>
+                                    <% for (let review of reviews) { %>
+                                        <div class="mt-8 mb-8 mx-5">
+                                            <article class="flex flex-col md:flex-row md:inline-flex">
 
-                <!-- Sidebar -->
-                <%- include('../partials/sidebar') %>
+                                                <!-- content -->
+                                                <div class="mt-6 md:mt-0  w-full md:w-auto">
+                                                    <div class="flex items-start mb-5 w-full">
+                                                        <div class="pr-4 w-full">
+                                                            <p>
+                                                                <a class="hover:underline"
+                                                                    href="cities/<%= review.city %>, <%= review.state %>">
+                                                                    <%= review.city %>, <%= review.state %>
+                                                                </a>
 
-                    <!-- Reviews -->
-                    <div class="h-auto w-1/2 border-2">
-                        <% if (reviews.length===0) { %>
-                            <div class="w-full  text-gray-600 h-24 flex justify-center items-center">
-                                <p class="">
-                                    No reviews to show...
-                                </p>
-                            </div>
-
-                            <% } %>
-                                <% for (let review of reviews) { %>
-                                    <div class="mt-8 mb-8 mx-5">
-                                        <article class="flex flex-col md:flex-row md:inline-flex">
-
-                                            <!-- content -->
-                                            <div class="mt-6 md:mt-0  w-full md:w-auto">
-                                                <div class="flex items-start mb-5 w-full">
-                                                    <div class="pr-4 w-full">
-                                                        <p>
-                                                            <a class="hover:underline"
-                                                                href="cities/<%= review.city %>, <%= review.state %>">
-                                                                <%= review.city %>, <%= review.state %>
-                                                            </a>
-
-                                                        </p>
-                                                        <footer>
-                                                            <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">
-                                                                Reviewed:
-                                                                <time class="date">
-                                                                    <%= review.time.toLocaleDateString('en-us',
-                                                                        {year:"numeric", month:"long", day:"numeric"})
-                                                                        %>
-                                                                </time>
                                                             </p>
-                                                        </footer>
+                                                            <footer>
+                                                                <p
+                                                                    class="mb-3 text-sm text-gray-500 dark:text-gray-400">
+                                                                    Reviewed:
+                                                                    <time class="date">
+                                                                        <%= review.time.toLocaleDateString('en-us',
+                                                                            {year:"numeric", month:"long",
+                                                                            day:"numeric"}) %>
+                                                                    </time>
+                                                                </p>
+                                                            </footer>
 
-                                                        <div class="mt-7 mb-4 flex w-full justify-evenly">
-                                                            <% for (let place of review.places) { %>
-                                                                <span
-                                                                    class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
-                                                                    <svg class="inline text-sm text-[#FBBF24] mr-1"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        style="vertical-align: -0.125em;" width="1em"
-                                                                        height="1em" preserveAspectRatio="xMidYMid meet"
-                                                                        viewBox="0 0 16 16">
-                                                                        <path fill="currentColor"
-                                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                                                    </svg>
-                                                                    <a class="hover:underline" href="<%= place.url %> ">
-                                                                        <%= place.name %>
-                                                                    </a>
+                                                            <div class="mt-7 mb-4 flex w-full justify-evenly">
+                                                                <% for (let place of review.places) { %>
+                                                                    <span
+                                                                        class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                                                        <svg class="inline text-sm text-[#FBBF24] mr-1"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            style="vertical-align: -0.125em;"
+                                                                            width="1em" height="1em"
+                                                                            preserveAspectRatio="xMidYMid meet"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path fill="currentColor"
+                                                                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                                        </svg>
+                                                                        <a class="hover:underline"
+                                                                            href="<%= place.url %> ">
+                                                                            <%= place.name %>
+                                                                        </a>
 
-                                                                </span>
-                                                                <% } %>
+                                                                    </span>
+                                                                    <% } %>
+
+                                                            </div>
 
                                                         </div>
 
                                                     </div>
+                                                    <p class="mb-2 font-light text-gray-500 dark:text-gray-400">
+                                                        <%= review.body %>
+                                                    </p>
+
+                                                    <p class="font-light text-sm text-gray-500"><span
+                                                            class="font-bold ">Date of
+                                                            Visit:
+                                                        </span>
+                                                        <time class="date">
+                                                            <%= review.dateVisited.toLocaleDateString('en-us',
+                                                                {year:"numeric", month:"long", timeZone: 'UTC' }) %>
+                                                        </time>
+                                                    </p>
+
+                                                    <% if (review.useful) { %>
+                                                        <div class="my-4 text-xs text-gray-500 useful">
+                                                            <%= review.useful %> helpful votes
+                                                        </div>
+                                                        <% } %>
+
 
                                                 </div>
-                                                <p class="mb-2 font-light text-gray-500 dark:text-gray-400">
-                                                    <%= review.body %>
-                                                </p>
+                                            </article>
 
-                                                <p class="font-light text-sm text-gray-500"><span
-                                                        class="font-bold ">Date of
-                                                        Visit:
-                                                    </span>
-                                                    <time class="date">
-                                                        <%= review.dateVisited.toLocaleDateString('en-us',
-                                                            {year:"numeric", month:"long", timeZone: 'UTC' }) %>
-                                                    </time>
-                                                </p>
-                                                <!-- TODO: Add useful vote feature -->
-                                                <% if (review.useful) { %>
-                                                    <div class="my-4 text-xs text-gray-500 useful">
-                                                        <%= review.useful %> helpful votes
-                                                    </div>
-                                                    <% } %>
-
-
-                                            </div>
-                                        </article>
-
-                                    </div>
-                                    <% } %>
-                    </div>
-            </div>
-            <script src="javascripts/placeAutocomplete.js"></script>
-            <script src="javascripts/citySearch.js"></script>
+                                        </div>
+                                        <% } %>
+                        </div>
+                </div>
+                <script src="javascripts/placeAutocomplete.js"></script>
+                <script src="javascripts/citySearch.js"></script>

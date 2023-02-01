@@ -1,39 +1,24 @@
 <% layout('layouts/boilerplate')%>
     <%- include('../partials/navbar') %>
         <%- include('../partials/flash') %>
-            <!-- Header -->
-            <div class="bg-[#6366F1] flex flex-col justify-center items-center h-72 w-full">
-                <div>
-                    <a href="/users/photo">
-                        <img class="bg-white bg-center bg-cover rounded-full h-32 w-32" src="<%= user.avatar.url %>"
-                            alt="Not Found"
-                            onerror="this.src='https://res.cloudinary.com/dx5j0c332/image/upload/v1674607736/DayTrip/360_F_109006426_388PagqielgjFTAMgW59jRaDmPJvSBUL_w3idqh.jpg';">
-                    </a>
+            <%- include('../partials/userProfileHeader') %>
+                <!-- Content -->
+                <div class=" h-screen flex justify-center">
 
+                    <!-- Sidebar -->
+                    <%- include('../partials/sidebar') %>
+
+
+                        <!-- Reviews -->
+                        <div class="h-auto w-1/2 border-2">
+                            <% for (let bookmark of user.bookmarks) { %>
+                                <p class="m-6">
+                                    <a class="hover:underline" href="cities/<%= bookmark %>">
+                                        <%= bookmark %>
+                                    </a>
+                                </p>
+                                <% } %>
+                        </div>
                 </div>
-                <p class="text-sm my-4 text-white text-center">
-                    From <%= user.city %>, <%= user.state %>
-                </p>
-
-            </div>
-
-            <!-- Content -->
-            <div class=" h-screen flex justify-center">
-
-                <!-- Sidebar -->
-                <%- include('../partials/sidebar') %>
-
-
-                    <!-- Reviews -->
-                    <div class="h-auto w-1/2 border-2">
-                        <% for (let bookmark of user.bookmarks) { %>
-                            <p class="m-6">
-                                <a class="hover:underline" href="cities/<%= bookmark %>">
-                                    <%= bookmark %>
-                                </a>
-                            </p>
-                            <% } %>
-                    </div>
-            </div>
-            <script src="javascripts/placeAutocomplete.js"></script>
-            <script src="javascripts/citySearch.js"></script>
+                <script src="javascripts/placeAutocomplete.js"></script>
+                <script src="javascripts/citySearch.js"></script>
