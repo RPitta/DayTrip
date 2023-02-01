@@ -1,0 +1,14 @@
+<!-- Header -->
+<div class="bg-[#6366F1] flex flex-col justify-center items-center h-72 w-full">
+    <div>
+        <a href="/users/photo">
+            <img class="bg-white bg-center bg-cover rounded-full h-32 w-32" src="<%= user.avatar.url %>" alt="Not Found"
+                onerror="this.src='https://res.cloudinary.com/dx5j0c332/image/upload/v1674607736/DayTrip/360_F_109006426_388PagqielgjFTAMgW59jRaDmPJvSBUL_w3idqh.jpg';">
+        </a>
+
+    </div>
+    <p class="text-sm my-4 text-white text-center">
+        From <%= user.city %>, <%= user.state %>
+    </p>
+
+</div>
