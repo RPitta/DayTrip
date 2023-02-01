@@ -44,59 +44,51 @@
                                 </button>
                             </form>
                             <% } %>
-                                <% if (currentUser && currentUser.bookmarks.length) { %>
-                                    <% for (let bookmark of currentUser.bookmarks) { %>
-                                        <% if (bookmark===city.name + ", " + city.state) { %>
-                                            <form class="inline"
-                                                action="/users/unsave/<%= city.name %>, <%= city.state %>"
-                                                method="POST">
-                                                <button type="submit" name="city"
-                                                    value="<%= city.name %>, <%= city.state %>"
-                                                    class="focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4  font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
+                                <% if (currentUser && currentUser.bookmarks.includes(city.name + ", " + city.state)) {
+                                    %>
+                                    <form class="inline" action="/users/unsave/<%= city.name %>, <%= city.state %>"
+                                        method="POST">
+                                        <button type="submit" name="city" value="<%= city.name %>, <%= city.state %>"
+                                            class="focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4  font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
+                                            <svg class="text-xl inline" xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M5 21V5q0-.825.588-1.413Q6.175 3 7 3h10q.825 0 1.413.587Q19 4.175 19 5v16l-7-3Z" />
+                                            </svg>
+                                            <span class="ml-2 hidden sm:inline-block">Saved</span>
+                                        </button>
+                                    </form>
+                                    <% } else { %>
+                                        <form class="inline" action="/users/save/<%= city.name %>, <%= city.state %>"
+                                            method="POST">
+                                            <button type="submit" name="city"
+                                                value="<%= city.name %>, <%= city.state %>"
+                                                class="focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4  font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
+                                                <svg class="text-xl inline" xmlns="http://www.w3.org/2000/svg"
+                                                    width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill="currentColor"
+                                                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                                </svg>
+                                                <span class="ml-2 hidden sm:inline-block">Save</span>
+                                            </button>
+                                        </form>
+                                        <% } %>
+                                            <a href="/reviews/<%= city.name %>, <%= city.state %>">
+                                                <button type="button"
+                                                    class="inline focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5  mb-2 dark:focus:ring-yellow-900">
                                                     <svg class="text-xl inline" xmlns="http://www.w3.org/2000/svg"
-                                                        width="1em" height="1em" viewBox="0 0 24 24">
+                                                        width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
+                                                        viewBox="0 0 32 32">
                                                         <path fill="currentColor"
-                                                            d="M5 21V5q0-.825.588-1.413Q6.175 3 7 3h10q.825 0 1.413.587Q19 4.175 19 5v16l-7-3Z" />
+                                                            d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z" />
+                                                        <path fill="currentColor"
+                                                            d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3l-7.451-1.083z" />
                                                     </svg>
-                                                    <span class="ml-2 hidden sm:inline-block">Saved</span>
+                                                    <span class="ml-2 hidden sm:inline-block">All
+                                                        reviews</span>
                                                 </button>
-                                            </form>
-                                            <% } %>
-                                                <% } %>
-                                                    <% } else { %>
-                                                        <form class="inline"
-                                                            action="/users/save/<%= city.name %>, <%= city.state %>"
-                                                            method="POST">
-                                                            <button type="submit" name="city"
-                                                                value="<%= city.name %>, <%= city.state %>"
-                                                                class="focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4  font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">
-                                                                <svg class="text-xl inline"
-                                                                    xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                                    height="1em" preserveAspectRatio="xMidYMid meet"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path fill="currentColor"
-                                                                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                </svg>
-                                                                <span class="ml-2 hidden sm:inline-block">Save</span>
-                                                            </button>
-                                                        </form>
-                                                        <% } %>
-                                                            <a href="/reviews/<%= city.name %>, <%= city.state %>">
-                                                                <button type="button"
-                                                                    class="inline focus:outline-none ml-10 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-xs sm:text-sm px-5 py-2.5  mb-2 dark:focus:ring-yellow-900">
-                                                                    <svg class="text-xl inline"
-                                                                        xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                                        height="1em" preserveAspectRatio="xMidYMid meet"
-                                                                        viewBox="0 0 32 32">
-                                                                        <path fill="currentColor"
-                                                                            d="M18 26h8v2h-8zm0-4h12v2H18zm0-4h12v2H18z" />
-                                                                        <path fill="currentColor"
-                                                                            d="M20.549 11.217L16 2l-4.549 9.217L1.28 12.695l7.36 7.175L6.902 30L14 26.269v-2.26l-4.441 2.335l1.052-6.136l.178-1.037l-.753-.733l-4.458-4.347l6.161-.895l1.04-.151l.466-.943L16 6.519l2.755 5.583l.466.943l1.04.151l7.454 1.085L28 12.3l-7.451-1.083z" />
-                                                                    </svg>
-                                                                    <span class="ml-2 hidden sm:inline-block">All
-                                                                        reviews</span>
-                                                                </button>
-                                                            </a>
+                                            </a>
 
                 </div>
             </div>
